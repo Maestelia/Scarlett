@@ -4,7 +4,7 @@ import glob
 import requests
 import json
 import sys
-import os
+import shutil
 from scryfall_DL import get_set
 
 SCRYFALL_URL = "https://api.scryfall.com/cards/"
@@ -22,7 +22,6 @@ def best_match(img_in, folder):
         if score > best_score:
             best_score = score
             best_id = file
-    print(best_score)
     return best_id, best_score
 
 
@@ -37,6 +36,7 @@ if __name__ == '__main__':
     folder_in = sys.argv[1]
     exp = sys.argv[2]
     folder_cpr = "database/{}".format(exp.upper())
+    folder_done = "done/"
     if not os.path.isdir(folder_cpr):
         get_set(exp)
     files_in = glob.glob(folder_in + "/*.jpg")
@@ -49,8 +49,11 @@ if __name__ == '__main__':
         best_id, best_score = best_match(img_in, folder_cpr)
         if best_score > 0.22:
             set_name, card_name = get_info(best_id)
-            print("{} is {} ({})".format(img_in, card_name, set_name))
+            # print("{} is {} ({})".format(img_in, card_name, set_name))
             csv_out.write("{},{}\n".format(set_name, card_name))
-            os.remove(img_in)
+            shutil.move(img_in, folder_done)
         else:
             print("CANNOT IDENTIFY {}".format(img_in))
+        index += 1
+        if index % 20 == 0:
+            print("{} cards scanned".format(str(index)))
