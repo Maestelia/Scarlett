@@ -2,3 +2,6 @@ ve3/*
 network_drive/*
 .idea/*
 utils/*
+database/*
+*.csv
+__pycache__/*
