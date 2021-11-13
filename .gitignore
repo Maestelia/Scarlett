@@ -4,3 +4,4 @@ to_scan/*
 mounter.sh
 network_drive/*
 .idea/*
+utils/*

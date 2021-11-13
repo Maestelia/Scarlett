@@ -1,2 +1,2 @@
 # Scarlett
-MTG Card Scanner based on OCR
+MTG Card Scanner based on SSIM & Scryfall API
