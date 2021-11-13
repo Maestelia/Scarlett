@@ -33,10 +33,13 @@ def get_cards(card_file, exp):
     return cards
 
 
-if __name__ == '__main__':
+def get_set(exp):
     card_file = "utils/default-cards-20211113100239.json"
-    exp = sys.argv[1]
-    dest_folder = exp.upper() + "/"
+    dest_folder = "database/" + exp.upper() + "/"
     cards = get_cards(card_file, exp)
     print("Starting download for {}, {} cards to be downloaded".format(exp.upper(), str(len(cards))))
     get_images(cards, dest_folder)
+
+
+if __name__ == '__main__':
+    exp = sys.argv[1]
