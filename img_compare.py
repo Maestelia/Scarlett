@@ -22,7 +22,8 @@ def best_match(img_in, folder):
         if score > best_score:
             best_score = score
             best_id = file
-    return best_id
+    print(best_score)
+    return best_id, best_score
 
 
 def get_info(card_id):
@@ -40,9 +41,16 @@ if __name__ == '__main__':
         get_set(exp)
     files_in = glob.glob(folder_in + "/*.jpg")
     files_in = sorted(files_in)
+    csv_out = open("PierreOdactyle.csv", "w")
+    csv_out.write("Set,Card Name\n")
     print("{} cards to scan".format(str(len(files_in))))
     index = 0
     for img_in in files_in:
-        best_id = best_match(img_in, folder_cpr)
-        set_name, card_name = get_info(best_id)
-        print("{} is {} ({})".format(img_in, card_name, set_name))
+        best_id, best_score = best_match(img_in, folder_cpr)
+        if best_score > 0.22:
+            set_name, card_name = get_info(best_id)
+            print("{} is {} ({})".format(img_in, card_name, set_name))
+            csv_out.write("{},{}\n".format(set_name, card_name))
+            os.remove(img_in)
+        else:
+            print("CANNOT IDENTIFY {}".format(img_in))
